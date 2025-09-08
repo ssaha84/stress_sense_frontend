@@ -1,0 +1,102 @@
+{
+  "work stress": [
+    "Deep breathing breaks",
+    "Prioritize top tasks",
+    "Short walks outside",
+    "Time-block focus sessions",
+    "Stretch at desk",
+    "Delegate when possible",
+    "Limit multitasking",
+    "Stay hydrated",
+    "Positive self-talk",
+    "Disconnect after work"
+  ],
+  "relationship issues": [
+    "Communicate openly",
+    "Set boundaries",
+    "Seek support",
+    "Practice empathy",
+    "Schedule quality time",
+    "Resolve conflicts calmly",
+    "Express appreciation",
+    "Listen actively",
+    "Balance time together and apart",
+    "Seek counseling if needed"
+  ],
+  "academic pressure": [
+    "Create a study schedule",
+    "Break tasks into chunks",
+    "Use active learning techniques",
+    "Eliminate distractions",
+    "Take regular breaks",
+    "Join study groups",
+    "Stay organized with notes",
+    "Set realistic goals",
+    "Seek help when needed",
+    "Maintain a healthy lifestyle"
+  ],
+  "financial stress": [
+    "Create a budget",
+    "Track expenses",
+    "Prioritize needs over wants",
+    "Set financial goals",
+    "Build an emergency fund",
+    "Avoid unnecessary debt",
+    "Use cash instead of credit",
+    "Review subscriptions regularly",
+    "Seek financial advice if needed",
+    "Practice mindful spending"
+  ],
+  "sleep problems": [
+    "Establish a bedtime routine",
+    "Limit screen time before bed",
+    "Create a comfortable sleep environment",
+    "Avoid caffeine and heavy meals before bed",
+    "Exercise regularly but not too close to bedtime",
+    "Manage stress through relaxation techniques",
+    "Stick to a consistent sleep schedule",
+    "Limit naps during the day",
+    "Avoid alcohol before bed",
+    "Seek professional help if sleep problems persist"
+  ],
+  "family issues": [
+    "Communicate openly with family members",
+    "Set healthy boundaries",
+    "Spend quality time together",
+    "Practice active listening",
+    "Show appreciation and gratitude",
+    "Resolve conflicts calmly and respectfully",
+    "Seek family counseling if needed",
+    "Support each other's goals and dreams",
+    "Create family traditions and rituals"
+  ],
+  "suicidal thoughts": [
+    "Reach out for support from trusted individuals or professionals",
+    "Talk about your feelings openly and honestly",
+    "Develop a safety plan if needed",
+    "Engage in activities that bring joy and purpose",
+    "Avoid isolation and stay connected with others",
+    "Practice self-care and mindfulness techniques",
+    "Seek professional help immediately if thoughts persist or worsen"
+  ],
+  "traumatic experiences": [
+    "Practice grounding techniques (e.g., 5-4-3-2-1 method)",
+    "Engage in physical activity or exercise",
+    "Talk to a trusted friend or therapist about your experience",
+    "Avoid triggers that may cause distress when possible",
+    "Create a safe environment for yourself",
+    "Practice self-care and relaxation techniques regularly"
+  ],
+  "general stress": [
+    "Identify stressors and develop coping strategies for each one.",
+    "Incorporate regular physical activity into your routine.",
+    "Practice mindfulness or meditation daily.",
+    "Maintain a balanced diet rich in nutrients.",
+    "Ensure you get adequate sleep each night.",
+    "Set realistic goals and break tasks into manageable steps.",
+    "Stay connected with supportive friends and family.",
+    "Engage in hobbies or activities that bring you joy.",
+    "Limit exposure to negative news or social media.",
+    "Seek professional help if stress becomes overwhelming."
+  ]
+}
