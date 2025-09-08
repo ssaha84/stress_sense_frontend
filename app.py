@@ -9,7 +9,7 @@ ENDPOINT_PREDICT_STRESS = ''
 ENDPOINT_PREDICT_THEME = ''
 
 # test : do not need if we use an api call to get recoomendations on intervention steps
-with open(os.environ.get('RECOMMENDATIONS_FILE'),'r') as f:
+with open('recommendations.json','r') as f:
     all_themes : dict = json.load(f)
 
 
