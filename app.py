@@ -50,3 +50,12 @@ st.markdown('### '+ 'Possible interventions for particular stress/anxiety condit
 st.text(get_recommendation(theme))
 # st.markdown('#### '+ get_recommendation(theme))
 # st.warning(get_recommendation(theme))
+
+
+
+### Testing api calls to get recommendations from Gemini LLM ###
+
+if st.button('Perform api call to Gemini'):
+     print(theme)
+     # TODO get prediction from /predict_stress endpoint of our api
+     pass
