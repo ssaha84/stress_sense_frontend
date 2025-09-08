@@ -1,33 +1,52 @@
 import streamlit as st
+import json
+import os
+import random
 
-#urls for the endpoints of api
+#TODO urls for the endpoints of api
 BASE_URL = ''
 ENDPOINT_PREDICT_STRESS = ''
 ENDPOINT_PREDICT_THEME = ''
 
+# test : do not need if we use an api call to get recoomendations on intervention steps
+with open(os.environ.get('RECOMMENDATIONS_FILE'),'r') as f:
+    all_themes : dict = json.load(f)
+
+
+# hard coded recommendaitions, later we will imlement an api call in this function to get recommended interventions
+def get_recommendation(theme:str):
+    #print(all_themes)
+    recommendations_lst = all_themes.get(theme,None)
+
+    if recommendations_lst is not None:
+        rand_id =random.randint(0,len(recommendations_lst))
+        return recommendations_lst[rand_id]
+    else:
+        return f'The theme:{theme} not found in the dictionary'
+
+
+# Layout
 st.markdown('# Title of the app')
 
-# User prompt
-prompt = txt = st.text_area('Write something about what you are feeling right now', '''
+
+st.markdown('### '+ 'Write something about what you are feeling right now:')
+# Layout: User prompt (ask user to write some sentences)
+prompt = st.text_area('', '''
 
     ''')
-#print(prompt)
 
-# button clicked to make request to api
-if st.button('click me'):
-    # print is visible in the server output, not in the page
-    print('button clicked!')
-    st.write('I was clicked 🎉')
-    prediction = 'normal ' # TODO get prediction from prediction api
-else:
-    st.write('I was not clicked 😞')
+# Layout: send user prompt to get prediction from prediction endpoint of api(ask user to write some sentences)
+if st.button('Get Recommendation'):
+     print(prompt)
+     # TODO get prediction from /predict_stress endpoint of our api
+     pass
 
-# response / recommendations
-if prediction == 'normal' : # not stress or anxiety or suicidal
-    st.success('Nothing to worry') # green abckground
-else:
-    recommendation = 'sleep more' # TODO get cluster from clustering end point of api
-    if recommendation == 'not that bad': # TODO give the proper condition here
-        st.warning('bite sized intervention') # TODO # orange background
-    else: # TODO suicidal
-        st.error('urgent help') # red background
+st.markdown('### '+ 'We found the following stress/anxiety:')
+# testing frontend :detected theme
+theme = st.text_input('', " ",placeholder='specific stress/anxiety').strip()
+
+# Layout: Interventions
+st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
+st.text(get_recommendation(theme))
+# st.markdown('#### '+ get_recommendation(theme))
+# st.warning(get_recommendation(theme))
