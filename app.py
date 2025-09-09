@@ -39,41 +39,42 @@ prompt = st.text_area('', '''
 
 # Layout: send user prompt to get prediction from prediction endpoint of api(ask user to write some sentences)
 if st.button('Get Recommendation'):
-    response = requests.get(BASE_URL+'/'+ENDPOINT_PREDICT_STRESS,params={'prompt':prompt},headers=HEADERS)
+    with st.spinner("Evaluating your answer....", show_time=False):
+        response = requests.get(BASE_URL+'/'+ENDPOINT_PREDICT_STRESS,params={'prompt':prompt},headers=HEADERS)
+    # print(response.json())
     # TODO handle exceptions like server time out etc.
     #import ipdb; ipdb.set_trace()
     prediction = response.json().get("prediction")
-    print(prediction)
+    #print(prediction)
 
-if prompt != '': # show only after user gave some prompt
-    # Layout: show the prediction from classification model
-    st.markdown('### '+ 'We found the following stress/anxiety:')
-    print(prediction)
-    if prediction == 'Normal':
-        st.success('You have nothing to worry about. We think that everything is normal')
-    else: # classifier predicted not normal
-        #call the theme detection api endpoint
-        # TODO handle exceptions like server time out etc.
-        response_theme = requests.get(BASE_URL+'/'+ENDPOINT_PREDICT_THEME,params={'prompt':prompt},headers=HEADERS)
-        theme = response_theme.json().get("theme")
-        theme_proba = response_theme.json().get("confidence_level")
+    if prompt != '': # show only after user gave some prompt
+        # Layout: show the prediction from classification model
+        st.markdown('### '+ 'We found the following stress/anxiety:')
 
-        if theme== 'suicidal thoughts':
-            st.error(theme) # show in red color as very urgent help
-            st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
-            st.text(get_recommendation(theme))
-        else : #any other theme than suicidal
-            st.warning(theme) # show in orange color
-            # Layout: Interventions
-            st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
-            st.text(get_recommendation(theme)) #TODO getting hard coded recommendations here. we have to get reply from gemini api for proper recommendation. just update the get_recommendation function
-            # st.markdown('#### '+ get_recommendation(theme))
-            # st.warning(get_recommendation(theme))
+        if prediction == 'Normal':
+            st.success('You have nothing to worry about. We think that everything is normal')
+        else: # classifier predicted not normal
+            #call the theme detection api endpoint
+            # TODO handle exceptions like server time out etc.
+            with st.spinner("Evaluating your stress/anxiety situation ...", show_time=True):
+                response_theme = requests.get(BASE_URL+'/'+ENDPOINT_PREDICT_THEME,params={'prompt':prompt},headers=HEADERS)
+            theme = response_theme.json().get("theme")
+            theme_proba = response_theme.json().get("confidence_level")
 
+            if theme== 'suicidal thoughts':
+                st.error(theme) # show in red color as very urgent help
+                st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
+                st.text(get_recommendation(theme))
+            else : #any other theme than suicidal
+                st.warning(theme) # show in orange color
+                # Layout: Interventions
+                st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
+                st.text(get_recommendation(theme)) #TODO getting hard coded recommendations here. we have to get reply from gemini api for proper recommendation. just update the get_recommendation function
 
 
-    ### Testing api calls to get recommendations from Gemini LLM ###
-    # if st.button('Perform api call to Gemini'):
-    #     print(theme)
-    #     # TODO get prediction from /predict_stress endpoint of our api
-    #     pass
+
+        ### Testing api calls to get recommendations from Gemini LLM ###
+        # if st.button('Perform api call to Gemini'):
+        #     print(theme)
+        #     # TODO get prediction from /predict_stress endpoint of our api
+        #     pass
