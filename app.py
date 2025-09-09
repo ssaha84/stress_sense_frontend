@@ -5,7 +5,8 @@ import os
 import random
 
 #urls for the endpoints of api
-BASE_URL = 'https://stress-sense-1032027763517.europe-west1.run.app/'
+# BASE_URL = 'https://stress-sense-1032027763517.europe-west1.run.app/'
+BASE_URL = 'https://stress-sense-v2-1032027763517.europe-west1.run.app//'
 ENDPOINT_PREDICT_STRESS = 'predict_stress_dl'
 ENDPOINT_PREDICT_THEME = 'predict_theme'
 HEADERS = {'Content-type':'Application/Json'}
