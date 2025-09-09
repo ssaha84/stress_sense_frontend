@@ -21,7 +21,7 @@ def get_recommendation(theme:str):
     recommendations_lst = all_themes.get(theme,None)
 
     if recommendations_lst is not None:
-        rand_id =random.randint(0,len(recommendations_lst))
+        rand_id =random.randint(0,len(recommendations_lst)-1)
         return recommendations_lst[rand_id]
     else:
         return f'The theme:{theme} not found in the dictionary'
