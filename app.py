@@ -41,13 +41,14 @@ prompt = st.text_area('', '''
 if st.button('Get Recommendation'):
     response = requests.get(BASE_URL+'/'+ENDPOINT_PREDICT_STRESS,params={'prompt':prompt},headers=HEADERS)
     # TODO handle exceptions like server time out etc.
-    import ipdb; ipdb.set_trace()
+    #import ipdb; ipdb.set_trace()
     prediction = response.json().get("prediction")
     print(prediction)
 
 if prompt != '': # show only after user gave some prompt
     # Layout: show the prediction from classification model
     st.markdown('### '+ 'We found the following stress/anxiety:')
+    print(prediction)
     if prediction == 'Normal':
         st.success('You have nothing to worry about. We think that everything is normal')
     else: # classifier predicted not normal
