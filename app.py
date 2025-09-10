@@ -3,7 +3,13 @@ import requests
 import json
 import os
 import random
+from google import genai
+from dotenv import load_dotenv
+from google.genai import types # We need to import types for the config
+import time
 
+
+load_dotenv() # Load environment variables from .env file
 #urls for the endpoints of api
 # BASE_URL = 'https://stress-sense-1032027763517.europe-west1.run.app/'
 BASE_URL = 'https://stress-sense-v2-1032027763517.europe-west1.run.app//'
@@ -27,6 +33,25 @@ def get_recommendation(theme:str):
     else:
         return f'The theme:{theme} not found in the dictionary'
 
+def ask_gemini_parameterized(prompt):
+    client = genai.Client()
+
+    response = client.models.generate_content(
+    model="gemini-2.0-flash",
+    contents=prompt,
+    config=types.GenerateContentConfig(
+        max_output_tokens=200,
+        temperature=0.0,
+        system_instruction="""You are a supportive, evidence-informed mental-health assistant that provides small, practical tips."""))
+    return response.text
+
+
+def ask_gemini(theme):
+    st.markdown('### '+ 'Gemini provides the following advice about your situation:')
+    #st.markdown(f"The theme is {theme}")
+    question = f"Give me a bite-sized recommendations on {theme}. It should not be longer than 2 sentences and keep it practical and casual."
+    st.text(ask_gemini_parameterized(question))
+
 
 # Layout
 st.markdown('# Stress Sense Companion')
@@ -37,6 +62,8 @@ st.markdown('### '+ 'Write something about what you are feeling right now:')
 prompt = st.text_area('', '''
 
     ''').strip()
+def click_button():
+    st.session_state.clicked = True
 
 # Layout: send user prompt to get prediction from prediction endpoint of api(ask user to write some sentences)
 if st.button('Get Recommendation'):
@@ -76,10 +103,13 @@ if st.button('Get Recommendation'):
 
             if 'suicidal thoughts' in theme_topics and theme_confidence[theme_topics.index('suicidal thoughts')] >= 0.7: #if theme== 'suicidal thoughts':
                 st.error(theme) # show in red color as very urgent help
-                st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
-                st.text(get_recommendation(theme))
+                #st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
+                #st.text(get_recommendation(theme))
+                ask_gemini(theme)
             else : #any other theme than suicidal
                 st.warning(theme) # show in orange color
+                ask_gemini(theme)
                 # Layout: Interventions
-                st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
-                st.text(get_recommendation(theme)) #TODO getting hard coded recommendations here. we have to get reply from gemini api for proper recommendation. just update the get_recommendation function
+                #st.markdown('### '+ 'Possible interventions for particular stress/anxiety condition:')
+                #st.text(get_recommendation(theme)) #TODO getting hard coded recommendations here. we have to get reply from gemini api for proper recommendation. just update the get_recommendation function
+                #ask_gemini1(theme)
