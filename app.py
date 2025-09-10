@@ -2,8 +2,10 @@ import streamlit as st
 import requests
 import os
 from google import genai
-from dotenv import load_dotenv
+
 from google.genai import types # We need to import types for the config
+
+os.environ['GOOGLE_API_KEY'] = st.secrets.gemini_key.GOOGLE_API_KEY
 
 def get_recommendation(theme: str):
     client = genai.Client()
@@ -27,8 +29,9 @@ def get_recommendation(theme: str):
         system_instruction="""You are a supportive, evidence-informed mental-health assistant that provides bite-sized, practical tips for relieving people's stress."""))
     return response.text
 
+# st.write(st.secrets.gemini_key.GOOGLE_API_KEY)
 
-load_dotenv() # Load environment variables from .env file
+#load_dotenv() # Load environment variables from .env file
 #urls for the endpoints of api
 # BASE_URL = 'https://stress-sense-1032027763517.europe-west1.run.app/'
 BASE_URL = 'https://stress-sense-v2-1032027763517.europe-west1.run.app//'
