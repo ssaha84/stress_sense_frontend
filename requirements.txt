@@ -3,3 +3,4 @@ google-genai==1.14.0
 numpy==2.1.0
 pandas==2.2.3
 python-dotenv==1.1.0
+plotly==6.3.0
