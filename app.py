@@ -9,6 +9,17 @@ from google.genai import types # We need to import types for the config
 
 os.environ['GOOGLE_API_KEY'] = st.secrets.gemini_key.GOOGLE_API_KEY
 
+page_element="""
+<style>
+[data-testid="stAppViewContainer"]{
+  background-image: url("https://img.freepik.com/free-vector/blank-white-leafy-background_53876-100817.jpg?t=st=1757591495~exp=1757595095~hmac=f6c2a51f11d736c6999282c680f8b191e04c50d850e23d7a1cf03a82f44ec334&w=2000");
+  background-size: cover;
+}
+</style>
+"""
+
+st.markdown(page_element, unsafe_allow_html=True)
+
 def get_recommendation(theme: str):
     client = genai.Client()
 
