@@ -53,7 +53,7 @@ def make_pieplot(themes:list[list], slice: int = 3 )-> None:
     fig.update_traces(
         textinfo="label+percent",   # show names (“titles”) and % inside
         textposition="inside",
-        insidetextorientation="radial",
+        insidetextorientation="horizontal",
         textfont_size=14,
         marker=dict(
             colors=colors,
