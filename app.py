@@ -69,6 +69,7 @@ def make_pieplot(themes:list[list], slice: int = 3 )-> None:
         rotation=180,
         pull=[0.05, 0, 0],
         textfont_size=[24,14,14],
+        texttemplate='<b>%{label}</b><br><b>%{percent}</b>',
         domain=dict(x=[0, 1], y=[0, 1])
         # domain=dict(x=[0.05, 0.9], y=[0.05, 0.9])  # slight offset
     ))
@@ -82,6 +83,7 @@ def make_pieplot(themes:list[list], slice: int = 3 )-> None:
         rotation=180,
         pull=[0.05, 0, 0],
         textfont_size=[24,14,14],
+        texttemplate='<b>%{label}</b><br><b>%{percent}</b>',
         domain=dict(x=[0.015, 1], y=[0.015, 1]),
         # domain=dict(x=[0, 1], y=[0, 1])
     ))
@@ -165,7 +167,7 @@ if st.button("Spot the Stress", use_container_width=True):
 
     #Disclaimer
     st.write("")
-    st.markdown("### **Disclaimer :** ")
-    st.write("This information is for educational or informational purposes only and does\
-not constitute medical advice. It is not a substitute for professional\
+    st.markdown("#### **Disclaimer :** ")
+    st.write("This information is for educational or informational purposes only and does \
+not constitute medical advice. It is not a substitute for professional \
 medical advice, diagnosis, or treatment.")
