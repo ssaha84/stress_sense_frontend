@@ -52,6 +52,7 @@ if st.button("Spot the Stress"):
     else:
         # Call the stress prediction API
         with st.spinner('Analysing your text for stress...'):
+            import ipdb; ipdb.set_trace()
             response = requests.get(
                 url=os.path.join(BASE_URL, ENDPOINT_PREDICT_STRESS),
                 headers={'Content-type':'Application/Json'},
@@ -71,10 +72,11 @@ if st.button("Spot the Stress"):
 
         # Call the theme prediction API
         with st.spinner('Identifying themes in your text...'):
+            import ipdb; ipdb.set_trace()
             response = requests.get(
                 url=os.path.join(BASE_URL, ENDPOINT_PREDICT_THEME),
                 headers={'Content-type':'Application/Json'},
-                params={'prompt': prompt, 'multi-label': True}
+                params={'prompt': prompt, 'multi_label': True}
             )
             if response.status_code == 200:
                 theme_data = response.json()
@@ -91,5 +93,5 @@ if st.button("Spot the Stress"):
 
                 st.markdown(f"{get_recommendation(top_theme)}")
             else:
-                st.error("Error in theme prediction API call.")
+                st.error("Error in the prediction API call.")
                 st.stop()
