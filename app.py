@@ -102,35 +102,40 @@ if st.button("Spot the Stress"):
                 stress_label = stress_data.get('prediction', 'unknown')
                 stress_confidences = stress_data.get('confidence', {})
                 confidence = stress_confidences[stress_label]
+                if stress_label == "Normal":
+                    stress_label = "No Stress"
                 st.markdown(f"### Spotted: **{stress_label.upper()}** (Confidence: {confidence * 100}%)")
             else:
                 st.error("Error in stress prediction API call.")
                 st.stop()
 
-        # Call the theme prediction API
-        with st.spinner('Identifying themes in your text...'):
-            response = requests.get(
-                url=os.path.join(BASE_URL, ENDPOINT_PREDICT_THEME),
-                headers={'Content-type':'Application/Json'},
-                params={'prompt': prompt, 'multi_label': True}
-            )
-            if response.status_code == 200:
-                theme_data = response.json()
-                themes = theme_data.get('themes', [])
+        if stress_label is not "No Stress":
+            # Call the theme prediction API
+            with st.spinner('Identifying themes in your text...'):
+                response = requests.get(
+                    url=os.path.join(BASE_URL, ENDPOINT_PREDICT_THEME),
+                    headers={'Content-type':'Application/Json'},
+                    params={'prompt': prompt, 'multi_label': True}
+                )
+                if response.status_code == 200:
+                    theme_data = response.json()
+                    themes = theme_data.get('themes', [])
 
-                #print(themes)
-                if len(themes) > 1:
-                    st.markdown(f"### Detected Themes: ")
-                    make_pieplot(themes)
+                    #print(themes)
+                    if len(themes) > 1:
+                        st.markdown(f"### Detected Themes: ")
+                        make_pieplot(themes)
 
-                top_theme = themes[0][0]
-                st.markdown(f"### Main Theme: **{top_theme.capitalize()}**")
+                    top_theme = themes[0][0]
+                    st.markdown(f"### Main Theme: **{top_theme.capitalize()}**")
 
-                if not themes:
-                    st.info("No specific themes identified.")
+                    if not themes:
+                        st.info("No specific themes identified.")
+                        st.stop()
+
+                    st.markdown(f"{get_recommendation(top_theme)}")
+                else:
+                    st.error("Error in the prediction API call.")
                     st.stop()
-
-                st.markdown(f"{get_recommendation(top_theme)}")
-            else:
-                st.error("Error in the prediction API call.")
-                st.stop()
+        else:
+            st.image("unicorn.png")
