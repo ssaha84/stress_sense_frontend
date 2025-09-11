@@ -4,6 +4,7 @@ import os
 from google import genai
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 from google.genai import types # We need to import types for the config
 
@@ -48,45 +49,86 @@ def get_recommendation(theme: str):
 def make_pieplot(themes:list[list], slice: int = 3 )-> None:
     '''make a pie plot if more than 1 theme was detected'''
     top_themes = themes[:slice]
-    # print(top_themes)
-    # themes_df = pd.DataFrame(top_themes, columns=["theme, confidence"])
-    # print(themes_df.columns)
-    # print(themes_df)
-
-    themes_df = pd.DataFrame(top_themes)
-    colors = ["#CAE0F8",  # powder blue
-    "#F7E2B6",  # beige
-    "#D7F7D7"   # peach cream
-    ]
-
-    # themes_df.rename(columns={0: "theme", 1: "confidence"})
-    fig = px.pie(themes_df, values=1, names=0, category_orders={1: top_themes})
-
-    largest_idx = themes_df[1].idxmax()
-    pull = [0.05 if i == largest_idx else 0 for i in range(len(themes_df))]
-
-    max_val = themes_df[1].max()
-    templates = [
-    "<b>%{label}</b><br><b>%{percent}</b>" if v == max_val else "%{label}<br>%{percent}"
-    for v in themes_df[1]]
-
-    fig.update_traces(
-        pull=pull,
-        textinfo="label+percent",   # show names (“titles”) and % inside
-        textposition="inside",
-        insidetextorientation="horizontal",
-        texttemplate=templates,      # per-slice templates
-        textfont_size=14,
-        marker=dict(
-            colors=colors,
-            line=dict(color="white", width=2)  # crisp slice borders
-        ),
+    labels = [t[0] for t in top_themes]
+    values = [t[1] for t in top_themes]
+    # soft, mental-health friendly colors
+    base_colors = ['#C3E2CF', '#E4DDCF', '#A8D5BA']
+    def darken(hex_color, factor=0.82):
+        hex_color = hex_color.lstrip('#')
+        r, g, b = (int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+        r, g, b = int(r*factor), int(g*factor), int(b*factor)
+        return f'#{r:02X}{g:02X}{b:02X}'
+    shadow_colors = [darken(c, 0.78) for c in base_colors]
+    fig = go.Figure()
+    # back layer = “shadow”
+    fig.add_trace(go.Pie(
+        labels=labels, values=values,
+        hole=0.35, sort=False, direction='clockwise',
+        textinfo='none',
+        marker=dict(colors=shadow_colors, line=dict(width=0)),
         rotation=180,
-        direction="clockwise"
-    )
+        pull=[0.05, 0, 0],
+        textfont_size=[24,14,14],
+        domain=dict(x=[0, 1], y=[0, 1])
+        # domain=dict(x=[0.05, 0.9], y=[0.05, 0.9])  # slight offset
+    ))
+    # front layer = main pie
+    fig.add_trace(go.Pie(
+        labels=labels, values=values,
+        hole=0.35, sort=False, direction='clockwise',
+        textinfo='label+percent', textposition='inside',
+        insidetextorientation='horizontal',
+        marker=dict(colors=base_colors, line=dict(color='white', width=2)),
+        rotation=180,
+        pull=[0.05, 0, 0],
+        textfont_size=[24,14,14],
+        domain=dict(x=[0.015, 1], y=[0.015, 1]),
+        # domain=dict(x=[0, 1], y=[0, 1])
+    ))
 
-    fig.update_layout(showlegend=False)  # labels are already inside
+    fig.update_layout(showlegend=False, margin=dict(l=0, r=0, t=0, b=0))
     st.plotly_chart(fig, use_container_width=True)
+    # '''make a pie plot if more than 1 theme was detected'''
+    # top_themes = themes[:slice]
+    # # print(top_themes)
+    # # themes_df = pd.DataFrame(top_themes, columns=["theme, confidence"])
+    # # print(themes_df.columns)
+    # # print(themes_df)
+
+    # themes_df = pd.DataFrame(top_themes)
+    # colors = ["#CAE0F8",  # powder blue
+    # "#F7E2B6",  # beige
+    # "#D7F7D7"   # peach cream
+    # ]
+
+    # # themes_df.rename(columns={0: "theme", 1: "confidence"})
+    # fig = px.pie(themes_df, values=1, names=0, category_orders={1: top_themes})
+
+    # largest_idx = themes_df[1].idxmax()
+    # pull = [0.05 if i == largest_idx else 0 for i in range(len(themes_df))]
+
+    # max_val = themes_df[1].max()
+    # templates = [
+    # "<b>%{label}</b><br><b>%{percent}</b>" if v == max_val else "%{label}<br>%{percent}"
+    # for v in themes_df[1]]
+
+    # fig.update_traces(
+    #     pull=pull,
+    #     textinfo="label+percent",   # show names (“titles”) and % inside
+    #     textposition="inside",
+    #     insidetextorientation="horizontal",
+    #     texttemplate=templates,      # per-slice templates
+    #     textfont_size=14,
+    #     marker=dict(
+    #         colors=colors,
+    #         line=dict(color="white", width=2)  # crisp slice borders
+    #     ),
+    #     rotation=180,
+    #     direction="clockwise"
+    # )
+
+    # fig.update_layout(showlegend=False)  # labels are already inside
+    # st.plotly_chart(fig, use_container_width=True)
 
 
 
