@@ -162,3 +162,10 @@ if st.button("Spot the Stress", use_container_width=True):
                     st.stop()
         else:
             st.image("unicorn.png")
+
+    #Disclaimer
+    st.write("")
+    st.markdown("### **Disclaimer :** ")
+    st.write("This information is for educational or informational purposes only and does\
+not constitute medical advice. It is not a substitute for professional\
+medical advice, diagnosis, or treatment.")
