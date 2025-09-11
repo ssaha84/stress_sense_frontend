@@ -106,8 +106,11 @@ st.markdown("# Stress Sense Companion")
 st.markdown("### What's on your mind? What's going on in your life?")
 
 prompt = st.text_area(" ").strip()
+columns = st.columns((2, 1, 2))
+button_pressed = columns[1].button('Spot the Stress')
 
-if st.button("Spot the Stress", use_container_width=True):
+if button_pressed :
+# if st.button("Spot the Stress", use_container_width=True, width='content'):
 
     if len(prompt) == 0:
         st.warning('Write something about what you are feeling right now.')
@@ -165,9 +168,9 @@ if st.button("Spot the Stress", use_container_width=True):
         else:
             st.image("unicorn.png")
 
-    #Disclaimer
-    st.write("")
-    st.markdown("#### **Disclaimer :** ")
-    st.write("This information is for educational or informational purposes only and does \
-not constitute medical advice. It is not a substitute for professional \
-medical advice, diagnosis, or treatment.")
+        #Disclaimer
+        st.write("")
+        st.markdown("#### **Disclaimer :** ")
+        st.write("This information is for educational or informational purposes only and does \
+        not constitute medical advice. It is not a substitute for professional \
+        medical advice, diagnosis, or treatment.")
