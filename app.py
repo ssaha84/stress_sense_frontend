@@ -50,15 +50,28 @@ def make_pieplot(themes:list[list], slice: int = 3 )-> None:
 
     # themes_df.rename(columns={0: "theme", 1: "confidence"})
     fig = px.pie(themes_df, values=1, names=0, category_orders={1: top_themes})
+
+    largest_idx = themes_df[1].idxmax()
+    pull = [0.05 if i == largest_idx else 0 for i in range(len(themes_df))]
+
+    max_val = themes_df[1].max()
+    templates = [
+    "<b>%{label}</b><br><b>%{percent}</b>" if v == max_val else "%{label}<br>%{percent}"
+    for v in themes_df[1]]
+
     fig.update_traces(
+        pull=pull,
         textinfo="label+percent",   # show names (“titles”) and % inside
         textposition="inside",
         insidetextorientation="horizontal",
+        texttemplate=templates,      # per-slice templates
         textfont_size=14,
         marker=dict(
             colors=colors,
             line=dict(color="white", width=2)  # crisp slice borders
-        )
+        ),
+        rotation=180,
+        direction="clockwise"
     )
 
     fig.update_layout(showlegend=False)  # labels are already inside
