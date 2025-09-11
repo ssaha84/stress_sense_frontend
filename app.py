@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import os
 from google import genai
+import pandas as pd
+import plotly.express as px
 
 from google.genai import types # We need to import types for the config
 
@@ -29,9 +31,17 @@ def get_recommendation(theme: str):
         system_instruction="""You are a supportive, evidence-informed mental-health assistant that provides bite-sized, practical tips for relieving people's stress."""))
     return response.text
 
-# st.write(st.secrets.gemini_key.GOOGLE_API_KEY)
+def make_pieplot(themes:list[list])-> None:
+    '''make a pie plot if more than 1 theme was detected'''
+    if len(themes)<=1: #nothing will be plotted
+        return
+    themes_df = pd.DataFrame(themes)
+    fig = px.pie(themes_df, values=1, names=0)
+    st.plotly_chart(fig, use_container_width=True)
+
 
 #load_dotenv() # Load environment variables from .env file
+
 #urls for the endpoints of api
 # BASE_URL = 'https://stress-sense-1032027763517.europe-west1.run.app/'
 BASE_URL = 'https://stress-sense-v2-1032027763517.europe-west1.run.app//'
@@ -52,7 +62,7 @@ if st.button("Spot the Stress"):
     else:
         # Call the stress prediction API
         with st.spinner('Analysing your text for stress...'):
-            import ipdb; ipdb.set_trace()
+            #import ipdb; ipdb.set_trace()
             response = requests.get(
                 url=os.path.join(BASE_URL, ENDPOINT_PREDICT_STRESS),
                 headers={'Content-type':'Application/Json'},
@@ -72,7 +82,6 @@ if st.button("Spot the Stress"):
 
         # Call the theme prediction API
         with st.spinner('Identifying themes in your text...'):
-            import ipdb; ipdb.set_trace()
             response = requests.get(
                 url=os.path.join(BASE_URL, ENDPOINT_PREDICT_THEME),
                 headers={'Content-type':'Application/Json'},
@@ -84,6 +93,8 @@ if st.button("Spot the Stress"):
                 #theme_confidence = theme_data.get('confidences', []) # when api is deployed we will have this confidence value
 
                 print(themes)
+                st.markdown(f"### Detected Themes: ")
+                make_pieplot(themes)
                 top_theme = themes[0][0]
                 st.markdown(f"### Main Theme: **{top_theme}**")
 
