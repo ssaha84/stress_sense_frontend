@@ -24,6 +24,7 @@ streamlit:
 	-@streamlit run app.py
 
 
+
 # ----------------------------------
 #    LOCAL INSTALL COMMANDS
 # ----------------------------------
