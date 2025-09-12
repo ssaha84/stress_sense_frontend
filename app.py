@@ -169,8 +169,19 @@ if button_pressed :
             st.image("unicorn.png")
 
         #Disclaimer
-        st.write("")
-        st.markdown("#### **Disclaimer :** ")
-        st.write("This information is for educational or informational purposes only and does \
-        not constitute medical advice. It is not a substitute for professional \
-        medical advice, diagnosis, or treatment.")
+        # st.write("")
+        # st.markdown("#### **Disclaimer :** ")
+        # st.write("This information is for educational or informational purposes only and does \
+        # not constitute medical advice. It is not a substitute for professional \
+        # medical advice, diagnosis, or treatment.")
+
+        st.markdown("---")
+        st.markdown(
+        """
+        <p style='font-size: small; color: gray;'>
+            <b>Disclaimer:</b> This information is for educational or informational purposes only and does \
+            not constitute medical advice. It is not a substitute for professional \
+            medical advice, diagnosis, or treatment.
+        </p>
+        """,
+        unsafe_allow_html=True)
